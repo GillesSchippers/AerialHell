@@ -34,8 +34,8 @@ public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Di
 
         if (!displays.isEmpty() && displays.getFirst() instanceof FurnaceRecipeDisplay furnaceRecipeDisplay)
         {
-            this.inputs.add(EntryIngredients.ofItemStacks(furnaceRecipeDisplay.ingredient().stacks().toList()));
-            this.outputs.add(EntryIngredients.ofItemStacks(furnaceRecipeDisplay.result().stacks().toList()));
+            this.inputs.add(EntryIngredients.ofIngredient(furnaceRecipeDisplay.ingredient()));
+            this.outputs.add(EntryIngredients.ofIngredient(furnaceRecipeDisplay.result()));
         }
     }
 

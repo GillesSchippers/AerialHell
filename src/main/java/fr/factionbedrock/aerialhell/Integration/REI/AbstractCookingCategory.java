@@ -72,7 +72,7 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
         {
             // Input slot
             widgets.add(Widgets.createSlot(new Point(startPoint.x + 1, startPoint.y + 1))
-                    .entries(EntryIngredients.ofItemStacks(furnaceRecipeDisplay.ingredient().stacks().toList()))
+                    .entries(EntryIngredients.ofIngredient(furnaceRecipeDisplay.ingredient()))
                     .markInput());
 
             // Fuel slot
@@ -83,7 +83,7 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
 
             // Output slot
             widgets.add(Widgets.createSlot(new Point(startPoint.x + 61, startPoint.y + 19))
-                    .entries(EntryIngredients.ofItemStacks(furnaceRecipeDisplay.result().stacks().toList()))
+                    .entries(EntryIngredients.ofIngredient(furnaceRecipeDisplay.result()))
                     .disableBackground()
                     .markOutput());
 
