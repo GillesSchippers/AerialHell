@@ -14,7 +14,6 @@ import net.minecraft.recipe.display.SlotDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Display
 {
@@ -99,9 +98,9 @@ public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Di
     }
 
     @Override
-    public Optional<DisplaySerializer<?>> getSerializer()
+    public DisplaySerializer<?> getSerializer()
     {
-        // Return empty as we don't need serialization for these dynamic displays
-        return Optional.empty();
+        // Return null as we don't need serialization for these dynamic displays
+        return null;
     }
 }
