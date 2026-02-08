@@ -36,9 +36,9 @@ public class REIHelper
         return new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, recipeIdentifier), recipe);
     }
 
-    public static OscillatingRecipe createOscillatingRecipe(List<Item> ingredient, Item result)
+    public static OscillatingRecipe createOscillatingRecipe(List<Item> ingredients, Item result)
     {
-        return new OscillatingRecipe("", null, Ingredient.ofItems(ingredient.stream()), result.getDefaultStack(), 0, 200);
+        return new OscillatingRecipe("", null, Ingredient.ofItems(ingredients.stream()), result.getDefaultStack(), 0, 200);
     }
 
     public static RecipeEntry<FreezingRecipe> createFreezingRecipeEntry(List<Item> ingredients, Item result)
@@ -49,9 +49,9 @@ public class REIHelper
         return new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, recipeIdentifier), recipe);
     }
 
-    public static FreezingRecipe createFreezingRecipe(List<Item> ingredient, Item result)
+    public static FreezingRecipe createFreezingRecipe(List<Item> ingredients, Item result)
     {
-        return new FreezingRecipe("", null, Ingredient.ofItems(ingredient.stream()), result.getDefaultStack(), 0, 200);
+        return new FreezingRecipe("", null, Ingredient.ofItems(ingredients.stream()), result.getDefaultStack(), 0, 200);
     }
 
     public static Map<List<Item>, Item> OSCILLATING_MAP = new ImmutableMap.Builder<List<Item>, Item>()

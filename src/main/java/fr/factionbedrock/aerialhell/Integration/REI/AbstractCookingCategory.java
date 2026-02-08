@@ -65,9 +65,9 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
 
         RecipeEntry<T> recipeEntry = display.getRecipeEntry();
         T recipe = recipeEntry.value();
-        RecipeDisplay recipeDisplay = recipe.getDisplays().getFirst();
+        java.util.List<RecipeDisplay> displays = recipe.getDisplays();
 
-        if (recipeDisplay instanceof FurnaceRecipeDisplay furnaceRecipeDisplay)
+        if (!displays.isEmpty() && displays.getFirst() instanceof FurnaceRecipeDisplay furnaceRecipeDisplay)
         {
             // Input slot
             widgets.add(Widgets.createSlot(new Point(startPoint.x + 1, startPoint.y + 1))
