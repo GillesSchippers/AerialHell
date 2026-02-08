@@ -13,6 +13,7 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.block.Block;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.display.FurnaceRecipeDisplay;
@@ -93,13 +94,13 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
             if (this.isOscillating)
             {
                 widgets.add(Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) -> {
-                    graphics.drawTexture(net.minecraft.client.render.RenderPipeline.OPAQUE, OscillatorScreen.OSCILLATOR_GUI_TEXTURES, startPoint.x + 2, startPoint.y + 20, 57, 36, 13, 13, 256, 256);
+                    graphics.drawTexture(RenderPipelines.GUI_TEXTURED, OscillatorScreen.OSCILLATOR_GUI_TEXTURES, startPoint.x + 2, startPoint.y + 20, 57.0F, 36.0F, 13, 13, 256, 256);
                 }));
             }
             else
             {
                 widgets.add(Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) -> {
-                    graphics.drawTexture(net.minecraft.client.render.RenderPipeline.OPAQUE, FreezerScreen.FREEZER_GUI_TEXTURES, startPoint.x + 2, startPoint.y + 20, 57, 36, 13, 13, 256, 256);
+                    graphics.drawTexture(RenderPipelines.GUI_TEXTURED, FreezerScreen.FREEZER_GUI_TEXTURES, startPoint.x + 2, startPoint.y + 20, 57.0F, 36.0F, 13, 13, 256, 256);
                 }));
             }
         }
