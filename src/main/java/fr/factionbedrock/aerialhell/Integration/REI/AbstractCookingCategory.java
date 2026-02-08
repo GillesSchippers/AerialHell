@@ -79,7 +79,7 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
 
             // Fuel slot
             widgets.add(Widgets.createSlot(new Point(startPoint.x + 1, startPoint.y + 37))
-                    .entries(EntryIngredients.ofItemStacks(resolveSlotDisplay(furnaceRecipeDisplay.fuel())))
+                    .entries(List.of(EntryStacks.of(this.isOscillating ? AerialHellItems.FLUORITE : AerialHellItems.MAGMATIC_GEL)))
                     .disableBackground()
                     .markInput());
 
