@@ -122,13 +122,9 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
         {
             stacks.add(new ItemStack(itemSlotDisplay.item()));
         }
-        else if (slotDisplay instanceof SlotDisplay.ItemStackSlotDisplay itemStackSlotDisplay)
-        {
-            stacks.add(itemStackSlotDisplay.stack());
-        }
         else if (slotDisplay instanceof SlotDisplay.StackSlotDisplay stackSlotDisplay)
         {
-            stacks.addAll(stackSlotDisplay.stacks());
+            stacks.add(stackSlotDisplay.stack());
         }
         else if (slotDisplay instanceof SlotDisplay.TagSlotDisplay tagSlotDisplay)
         {

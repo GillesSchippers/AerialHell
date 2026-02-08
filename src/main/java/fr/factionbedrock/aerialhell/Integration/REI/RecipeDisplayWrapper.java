@@ -11,9 +11,11 @@ import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.display.FurnaceRecipeDisplay;
 import net.minecraft.recipe.display.RecipeDisplay;
 import net.minecraft.recipe.display.SlotDisplay;
+import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Display
 {
@@ -52,13 +54,9 @@ public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Di
         {
             stacks.add(new ItemStack(itemSlotDisplay.item()));
         }
-        else if (slotDisplay instanceof SlotDisplay.ItemStackSlotDisplay itemStackSlotDisplay)
-        {
-            stacks.add(itemStackSlotDisplay.stack());
-        }
         else if (slotDisplay instanceof SlotDisplay.StackSlotDisplay stackSlotDisplay)
         {
-            stacks.addAll(stackSlotDisplay.stacks());
+            stacks.add(stackSlotDisplay.stack());
         }
         else if (slotDisplay instanceof SlotDisplay.TagSlotDisplay tagSlotDisplay)
         {
@@ -95,6 +93,13 @@ public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Di
     public CategoryIdentifier<?> getCategoryIdentifier()
     {
         return categoryIdentifier;
+    }
+
+    @Override
+    public Optional<Identifier> getDisplayLocation()
+    {
+        // Return the recipe ID as the display location
+        return Optional.of(recipeEntry.id().getValue());
     }
 
     @Override
