@@ -71,7 +71,7 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
         {
             // Input slot
             widgets.add(Widgets.createSlot(new Point(startPoint.x + 1, startPoint.y + 1))
-                    .entries(EntryIngredients.ofIngredient(furnaceRecipeDisplay.ingredient()))
+                    .entries(EntryIngredients.ofItemStacks(furnaceRecipeDisplay.ingredient().stacks().toList()))
                     .markInput());
 
             // Fuel slot
@@ -82,7 +82,7 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
 
             // Output slot
             widgets.add(Widgets.createSlot(new Point(startPoint.x + 61, startPoint.y + 19))
-                    .entries(EntryIngredients.of(furnaceRecipeDisplay.result()))
+                    .entries(EntryIngredients.ofItemStacks(furnaceRecipeDisplay.result().stacks().toList()))
                     .disableBackground()
                     .markOutput());
 
@@ -93,13 +93,13 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
             if (this.isOscillating)
             {
                 widgets.add(Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) -> {
-                    graphics.drawTexture(OscillatorScreen.OSCILLATOR_GUI_TEXTURES, startPoint.x + 2, startPoint.y + 20, 57, 36, 13, 13);
+                    graphics.drawTexture(net.minecraft.client.render.RenderPipeline.OPAQUE, OscillatorScreen.OSCILLATOR_GUI_TEXTURES, startPoint.x + 2, startPoint.y + 20, 57, 36, 13, 13, 256, 256);
                 }));
             }
             else
             {
                 widgets.add(Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) -> {
-                    graphics.drawTexture(FreezerScreen.FREEZER_GUI_TEXTURES, startPoint.x + 2, startPoint.y + 20, 57, 36, 13, 13);
+                    graphics.drawTexture(net.minecraft.client.render.RenderPipeline.OPAQUE, FreezerScreen.FREEZER_GUI_TEXTURES, startPoint.x + 2, startPoint.y + 20, 57, 36, 13, 13, 256, 256);
                 }));
             }
         }
