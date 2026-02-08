@@ -50,7 +50,15 @@ public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Di
         List<ItemStack> stacks = new ArrayList<>();
         
         // Pattern match on the SlotDisplay type
-        if (slotDisplay instanceof SlotDisplay.ItemSlotDisplay itemSlotDisplay)
+        if (slotDisplay instanceof SlotDisplay.CompositeSlotDisplay compositeSlotDisplay)
+        {
+            // Handle composite displays by recursively resolving all contents
+            for (SlotDisplay childDisplay : compositeSlotDisplay.contents())
+            {
+                stacks.addAll(resolveSlotDisplay(childDisplay));
+            }
+        }
+        else if (slotDisplay instanceof SlotDisplay.ItemSlotDisplay itemSlotDisplay)
         {
             stacks.add(new ItemStack(itemSlotDisplay.item()));
         }
