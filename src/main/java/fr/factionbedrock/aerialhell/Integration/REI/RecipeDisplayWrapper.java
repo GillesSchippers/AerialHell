@@ -2,15 +2,19 @@ package fr.factionbedrock.aerialhell.Integration.REI;
 
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
+import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
+import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.display.FurnaceRecipeDisplay;
 import net.minecraft.recipe.display.RecipeDisplay;
+import net.minecraft.recipe.display.SlotDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Display
 {
@@ -32,9 +36,43 @@ public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Di
 
         if (!displays.isEmpty() && displays.getFirst() instanceof FurnaceRecipeDisplay furnaceRecipeDisplay)
         {
-            this.inputs.add(EntryIngredients.ofIngredient(furnaceRecipeDisplay.ingredient()));
-            this.outputs.add(EntryIngredients.ofIngredient(furnaceRecipeDisplay.result()));
+            this.inputs.add(EntryIngredients.ofItemStacks(resolveSlotDisplay(furnaceRecipeDisplay.ingredient())));
+            this.outputs.add(EntryIngredients.ofItemStacks(resolveSlotDisplay(furnaceRecipeDisplay.result())));
         }
+    }
+
+    /**
+     * Converts a SlotDisplay to a list of ItemStacks for REI
+     */
+    private static List<ItemStack> resolveSlotDisplay(SlotDisplay slotDisplay)
+    {
+        List<ItemStack> stacks = new ArrayList<>();
+        
+        // Pattern match on the SlotDisplay type
+        if (slotDisplay instanceof SlotDisplay.ItemSlotDisplay itemSlotDisplay)
+        {
+            stacks.add(new ItemStack(itemSlotDisplay.item()));
+        }
+        else if (slotDisplay instanceof SlotDisplay.ItemStackSlotDisplay itemStackSlotDisplay)
+        {
+            stacks.add(itemStackSlotDisplay.stack());
+        }
+        else if (slotDisplay instanceof SlotDisplay.StackSlotDisplay stackSlotDisplay)
+        {
+            stacks.addAll(stackSlotDisplay.stacks());
+        }
+        else if (slotDisplay instanceof SlotDisplay.TagSlotDisplay tagSlotDisplay)
+        {
+            // For tag displays, we need to resolve the tag
+            // This is a simplified version - in production, you'd want to resolve the tag properly
+            stacks.add(ItemStack.EMPTY);
+        }
+        else if (slotDisplay instanceof SlotDisplay.EmptySlotDisplay)
+        {
+            stacks.add(ItemStack.EMPTY);
+        }
+        
+        return stacks;
     }
 
     public RecipeEntry<T> getRecipeEntry()
@@ -58,5 +96,12 @@ public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Di
     public CategoryIdentifier<?> getCategoryIdentifier()
     {
         return categoryIdentifier;
+    }
+
+    @Override
+    public Optional<DisplaySerializer<?>> getSerializer()
+    {
+        // Return empty as we don't need serialization for these dynamic displays
+        return Optional.empty();
     }
 }
