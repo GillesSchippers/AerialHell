@@ -13,6 +13,7 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.block.Block;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.display.FurnaceRecipeDisplay;
@@ -71,7 +72,7 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
         {
             // Input slot
             widgets.add(Widgets.createSlot(new Point(startPoint.x + 1, startPoint.y + 1))
-                    .entries(EntryIngredients.ofIngredient(furnaceRecipeDisplay.ingredient()))
+                    .entries(EntryIngredients.ofItemStacks(furnaceRecipeDisplay.ingredient().stacks().toList()))
                     .markInput());
 
             // Fuel slot
@@ -82,7 +83,7 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
 
             // Output slot
             widgets.add(Widgets.createSlot(new Point(startPoint.x + 61, startPoint.y + 19))
-                    .entries(EntryIngredients.of(furnaceRecipeDisplay.result()))
+                    .entries(EntryIngredients.ofItemStacks(furnaceRecipeDisplay.result().stacks().toList()))
                     .disableBackground()
                     .markOutput());
 
@@ -93,13 +94,13 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
             if (this.isOscillating)
             {
                 widgets.add(Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) -> {
-                    graphics.drawTexture(OscillatorScreen.OSCILLATOR_GUI_TEXTURES, startPoint.x + 2, startPoint.y + 20, 57, 36, 13, 13);
+                    graphics.drawTexture(RenderPipelines.GUI_TEXTURED, OscillatorScreen.OSCILLATOR_GUI_TEXTURES, startPoint.x + 2, startPoint.y + 20, 57.0F, 36.0F, 13, 13, 256, 256);
                 }));
             }
             else
             {
                 widgets.add(Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) -> {
-                    graphics.drawTexture(FreezerScreen.FREEZER_GUI_TEXTURES, startPoint.x + 2, startPoint.y + 20, 57, 36, 13, 13);
+                    graphics.drawTexture(RenderPipelines.GUI_TEXTURED, FreezerScreen.FREEZER_GUI_TEXTURES, startPoint.x + 2, startPoint.y + 20, 57.0F, 36.0F, 13, 13, 256, 256);
                 }));
             }
         }

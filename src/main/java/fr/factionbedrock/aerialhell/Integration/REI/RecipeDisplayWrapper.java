@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Integration.REI;
 
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
+import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.recipe.AbstractCookingRecipe;
@@ -11,6 +12,7 @@ import net.minecraft.recipe.display.RecipeDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Display
 {
@@ -32,8 +34,8 @@ public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Di
 
         if (!displays.isEmpty() && displays.getFirst() instanceof FurnaceRecipeDisplay furnaceRecipeDisplay)
         {
-            this.inputs.add(EntryIngredients.ofIngredient(furnaceRecipeDisplay.ingredient()));
-            this.outputs.add(EntryIngredients.of(furnaceRecipeDisplay.result()));
+            this.inputs.add(EntryIngredients.ofItemStacks(furnaceRecipeDisplay.ingredient().stacks().toList()));
+            this.outputs.add(EntryIngredients.ofItemStacks(furnaceRecipeDisplay.result().stacks().toList()));
         }
     }
 
@@ -58,5 +60,11 @@ public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Di
     public CategoryIdentifier<?> getCategoryIdentifier()
     {
         return categoryIdentifier;
+    }
+
+    @Override
+    public Optional<DisplaySerializer<?>> getSerializer()
+    {
+        return Optional.empty();
     }
 }
