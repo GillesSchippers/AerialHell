@@ -25,12 +25,12 @@ public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Di
         this.categoryIdentifier = categoryIdentifier;
 
         T recipe = recipeEntry.value();
-        RecipeDisplay display = recipe.getDisplays().getFirst();
+        java.util.List<RecipeDisplay> displays = recipe.getDisplays();
 
         this.inputs = new ArrayList<>();
         this.outputs = new ArrayList<>();
 
-        if (display instanceof FurnaceRecipeDisplay furnaceRecipeDisplay)
+        if (!displays.isEmpty() && displays.getFirst() instanceof FurnaceRecipeDisplay furnaceRecipeDisplay)
         {
             this.inputs.add(EntryIngredients.ofIngredient(furnaceRecipeDisplay.ingredient()));
             this.outputs.add(EntryIngredients.of(furnaceRecipeDisplay.result()));

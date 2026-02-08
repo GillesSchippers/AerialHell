@@ -31,7 +31,8 @@ public class REIHelper
     public static RecipeEntry<OscillatingRecipe> createOscillatingRecipeEntry(List<Item> ingredients, Item result)
     {
         OscillatingRecipe recipe = createOscillatingRecipe(ingredients, result);
-        Identifier recipeIdentifier = AerialHell.id("oscillating_recipe");
+        String resultName = result.toString().replace(":", "_");
+        Identifier recipeIdentifier = AerialHell.id("oscillating_" + resultName);
         return new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, recipeIdentifier), recipe);
     }
 
@@ -43,7 +44,8 @@ public class REIHelper
     public static RecipeEntry<FreezingRecipe> createFreezingRecipeEntry(List<Item> ingredients, Item result)
     {
         FreezingRecipe recipe = createFreezingRecipe(ingredients, result);
-        Identifier recipeIdentifier = AerialHell.id("freezing_recipe");
+        String resultName = result.toString().replace(":", "_");
+        Identifier recipeIdentifier = AerialHell.id("freezing_" + resultName);
         return new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, recipeIdentifier), recipe);
     }
 
