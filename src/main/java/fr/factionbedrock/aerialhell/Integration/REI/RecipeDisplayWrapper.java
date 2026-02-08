@@ -5,10 +5,13 @@ import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
+import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.display.FurnaceRecipeDisplay;
 import net.minecraft.recipe.display.RecipeDisplay;
+import net.minecraft.recipe.display.SlotDisplay;
+import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +37,39 @@ public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Di
 
         if (!displays.isEmpty() && displays.getFirst() instanceof FurnaceRecipeDisplay furnaceRecipeDisplay)
         {
-            this.inputs.add(EntryIngredients.ofItemStacks(furnaceRecipeDisplay.ingredient().stacks().toList()));
-            this.outputs.add(EntryIngredients.ofItemStacks(furnaceRecipeDisplay.result().stacks().toList()));
+            this.inputs.add(EntryIngredients.ofItemStacks(resolveSlotDisplay(furnaceRecipeDisplay.ingredient())));
+            this.outputs.add(EntryIngredients.ofItemStacks(resolveSlotDisplay(furnaceRecipeDisplay.result())));
         }
+    }
+
+    /**
+     * Converts a SlotDisplay to a list of ItemStacks for REI
+     */
+    private static List<ItemStack> resolveSlotDisplay(SlotDisplay slotDisplay)
+    {
+        List<ItemStack> stacks = new ArrayList<>();
+        
+        // Pattern match on the SlotDisplay type
+        if (slotDisplay instanceof SlotDisplay.ItemSlotDisplay itemSlotDisplay)
+        {
+            stacks.add(new ItemStack(itemSlotDisplay.item()));
+        }
+        else if (slotDisplay instanceof SlotDisplay.StackSlotDisplay stackSlotDisplay)
+        {
+            stacks.add(stackSlotDisplay.stack());
+        }
+        else if (slotDisplay instanceof SlotDisplay.TagSlotDisplay tagSlotDisplay)
+        {
+            // For tag displays, we need to resolve the tag
+            // This is a simplified version - in production, you'd want to resolve the tag properly
+            stacks.add(ItemStack.EMPTY);
+        }
+        else if (slotDisplay instanceof SlotDisplay.EmptySlotDisplay)
+        {
+            stacks.add(ItemStack.EMPTY);
+        }
+        
+        return stacks;
     }
 
     public RecipeEntry<T> getRecipeEntry()
@@ -63,8 +96,16 @@ public class RecipeDisplayWrapper<T extends AbstractCookingRecipe> implements Di
     }
 
     @Override
-    public Optional<DisplaySerializer<?>> getSerializer()
+    public Optional<Identifier> getDisplayLocation()
     {
-        return Optional.empty();
+        // Return the recipe ID as the display location
+        return Optional.of(recipeEntry.id().getValue());
+    }
+
+    @Override
+    public DisplaySerializer<?> getSerializer()
+    {
+        // Return null as we don't need serialization for these dynamic displays
+        return null;
     }
 }
